@@ -1,0 +1,66 @@
+format = '''
+[\(づ ◕‿‿◕\)](white)づ $directory$git_branch$git_state$git_status$status
+$character'''
+
+# ── Caractère de fin de ligne ─────────────────────────────────────────────────
+[character]
+success_symbol = '[❯](bold green)'
+error_symbol   = '[❯](bold red)'
+
+# ── Répertoire ────────────────────────────────────────────────────────────────
+# truncate_to_repo : affiche le chemin depuis la racine du repo (comme repo/src/...)
+# truncation_length : max 3 segments visibles
+[directory]
+format            = '[$path](bold green)'
+repo_root_format  = '[$repo_root$path](bold green)'
+repo_root_style   = 'bold green'
+truncation_length = 4
+truncation_symbol = '…/'
+truncate_to_repo  = false
+home_symbol       = 'yinpi'
+
+# ── Branche git ───────────────────────────────────────────────────────────────
+[git_branch]
+format = '[ \(](white)[$symbol$branch](yellow)[\)](white)'
+symbol = ''
+
+# ── Status git (staged, modifié, non-tracké, ahead/behind…) ──────────────────
+[git_status]
+format      = '([ $conflicted$staged$modified$untracked$stashed$ahead_behind](white))'
+conflicted  = '[ ](bold red)'
+staged      = '[+$count](green)'
+modified    = '[!$count](yellow)'
+untracked   = '[?$count](white)'
+deleted     = '[-$count](red)'
+renamed     = '[»$count](white)'
+stashed     = '[≡](white)'
+ahead       = '[⇡$count](cyan)'
+behind      = '[⇣$count](cyan)'
+diverged    = '[⇕](bold red)'
+
+# ── État git (rebase, merge en cours…) ───────────────────────────────────────
+[git_state]
+format = '[\($state( $progress_current/$progress_total)\)](white) '
+
+# ── Batterie (visible seulement en dessous de 20%) ───────────────────────────
+[battery]
+format = '[$symbol$percentage]($style) '
+[[battery.display]]
+threshold = 20
+style     = 'bold red'
+
+# ── Code de retour (affiché uniquement si ≠ 0) ───────────────────────────────
+[status]
+disabled = false
+format   = '[ ✘$status](bold red) '
+symbol   = '✘'
+
+# ── Modules désactivés ────────────────────────────────────────────────────────
+[time]
+disabled = true
+
+[username]
+disabled = true
+
+[hostname]
+disabled = true

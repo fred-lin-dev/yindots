@@ -1,0 +1,3 @@
+# Séquences XCompose pour Optimot
+# Inclut toutes les séquences standard du système (touches mortes, accents, symboles)
+include "%L"

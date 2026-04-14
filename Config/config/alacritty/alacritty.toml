@@ -1,0 +1,15 @@
+# Couleurs générées par matugen — voir Config/config/matugen/templates/alacritty.toml
+# Le fichier colors.toml est créé au premier lancement de matugen
+[general]
+import = ["~/.config/alacritty/colors.toml"]
+
+[window]
+opacity = 0.9
+padding = { x = 4, y = 4 }
+
+[cursor.style]
+shape = "Beam"
+blinking = "Always"
+
+[cursor]
+blink_interval = 500

@@ -1,0 +1,132 @@
+[34m ::[0m Sync de config-epita/ → ~/AFS/.confs/ ...
+[32m  ✓[0m   Config → /home/frederic.lin/afs/.confs/
+[32m  ✓[0m   scripts → /home/frederic.lin/afs/.confs/
+[32m  ✓[0m   install.sh → /home/frederic.lin/afs/.confs/
+[32m  ✓[0m   check.sh → /home/frederic.lin/afs/.confs/
+[32m  ✓[0m   version → /home/frederic.lin/afs/.confs/
+[32m  ✓[0m Sync terminé.
+
+[34m ::[0m Lancement de install.sh (HOME=/home/frederic.lin/afs)...
+
+[34m ::[0m Installation de la config EPITA...
+
+[34m ::[0m Création des symlinks ~/.config/ ...
+[32m  ✓[0m   ~/.config/alacritty → /home/frederic.lin/afs/.confs/Config/config/alacritty
+[32m  ✓[0m   ~/.config/picom → /home/frederic.lin/afs/.confs/Config/config/picom
+[32m  ✓[0m   ~/.config/polybar → /home/frederic.lin/afs/.confs/Config/config/polybar
+[32m  ✓[0m   ~/.config/rofi → /home/frederic.lin/afs/.confs/Config/config/rofi
+[32m  ✓[0m   ~/.config/matugen → /home/frederic.lin/afs/.confs/Config/config/matugen
+[32m  ✓[0m   ~/.config/clang-format → /home/frederic.lin/afs/.confs/Config/config/clang-format
+[32m  ✓[0m   ~/.config/dunst → /home/frederic.lin/afs/.confs/Config/config/dunst
+[32m  ✓[0m   ~/.config/gtk-3.0 → /home/frederic.lin/afs/.confs/Config/config/gtk-3.0
+[32m  ✓[0m   ~/.config/gtk-4.0 → /home/frederic.lin/afs/.confs/Config/config/gtk-4.0
+[32m  ✓[0m   ~/.config/qt5ct → /home/frederic.lin/afs/.confs/Config/config/qt5ct
+[32m  ✓[0m   ~/.config/qt6ct → /home/frederic.lin/afs/.confs/Config/config/qt6ct
+[32m  ✓[0m   ~/.config/i3 → /home/frederic.lin/afs/.confs/Config/config/i3
+[32m  ✓[0m   ~/.config/flameshot → /home/frederic.lin/afs/.confs/Config/config/flameshot
+[32m  ✓[0m   ~/.config/starship.toml → /home/frederic.lin/afs/.confs/Config/config/starship.toml
+[34m ::[0m Installation des dotfiles shell...
+[32m  ✓[0m   ~/.bashrc → /home/frederic.lin/afs/.confs/Config/.bashrc
+[32m  ✓[0m   ~/.bash_aliases → /home/frederic.lin/afs/.confs/Config/.bash_aliases
+[32m  ✓[0m   ~/.bash_profile → /home/frederic.lin/afs/.confs/Config/.bash_profile
+[32m  ✓[0m   ~/.bash_logout → /home/frederic.lin/afs/.confs/Config/.bash_logout
+[32m  ✓[0m   ~/.gitconfig → /home/frederic.lin/afs/.confs/Config/.gitconfig
+[32m  ✓[0m   ~/.vimrc → /home/frederic.lin/afs/.confs/Config/.vimrc
+[34m ::[0m Configuration de GDB...
+[32m  ✓[0m   ~/.gdbinit → /home/frederic.lin/afs/.confs/Config/gdbinit
+[34m ::[0m Configuration d'Emacs...
+[32m  ✓[0m   ~/.emacs.d/init.el → /home/frederic.lin/afs/.confs/Config/emacs/init.el
+[34m ::[0m Configuration de clang-format...
+[32m  ✓[0m   clang-format-c-current → clang-format-c-epita-ing1-2025-2026
+[32m  ✓[0m   clang-format-cxx-current → clang-format-cxx-epita-ing1-2025-2026
+[34m ::[0m Configuration du clavier Optimot...
+[32m  ✓[0m   Optimot.xkb présent — sera chargé au démarrage i3 via load_keyboard.sh
+[34m ::[0m Permissions des scripts...
+[32m  ✓[0m   Tous les scripts *.sh sont exécutables
+[34m ::[0m Wallpapers...
+[32m  ✓[0m   Wallpapers déjà présents (skip)
+
+[34m ::[0m Installation terminée !
+[32mRelance i3 (mod+Shift+r) ou déconnecte-toi pour appliquer.[0m
+[33mN'oublie pas de lancer : matugen image <wallpaper> pour générer les couleurs.[0m
+
+[34m ::[0m Lancement de check.sh (HOME=/home/frederic.lin/afs)...
+
+
+[34m── Repo ─────────────────────────────────────────────────────[0m
+  [33m![0m ~/afs/.confs/ n'est pas un repo git (installer.sh copie sans cloner)
+
+[34m── Symlinks ~/.config/ ──────────────────────────────────────[0m
+  [32m✓[0m ~/.config/alacritty → /home/frederic.lin/afs/.confs/Config/config/alacritty
+  [32m✓[0m ~/.config/picom → /home/frederic.lin/afs/.confs/Config/config/picom
+  [32m✓[0m ~/.config/polybar → /home/frederic.lin/afs/.confs/Config/config/polybar
+  [32m✓[0m ~/.config/rofi → /home/frederic.lin/afs/.confs/Config/config/rofi
+  [32m✓[0m ~/.config/matugen → /home/frederic.lin/afs/.confs/Config/config/matugen
+  [32m✓[0m ~/.config/clang-format → /home/frederic.lin/afs/.confs/Config/config/clang-format
+  [32m✓[0m ~/.config/dunst → /home/frederic.lin/afs/.confs/Config/config/dunst
+  [32m✓[0m ~/.config/gtk-3.0 → /home/frederic.lin/afs/.confs/Config/config/gtk-3.0
+  [32m✓[0m ~/.config/gtk-4.0 → /home/frederic.lin/afs/.confs/Config/config/gtk-4.0
+  [32m✓[0m ~/.config/qt5ct → /home/frederic.lin/afs/.confs/Config/config/qt5ct
+  [32m✓[0m ~/.config/qt6ct → /home/frederic.lin/afs/.confs/Config/config/qt6ct
+  [32m✓[0m ~/.config/i3 → /home/frederic.lin/afs/.confs/Config/config/i3
+
+[34m── Dotfiles shell ───────────────────────────────────────────[0m
+  [32m✓[0m ~/.bashrc → /home/frederic.lin/afs/.confs/Config/.bashrc
+  [32m✓[0m ~/.bash_aliases → /home/frederic.lin/afs/.confs/Config/.bash_aliases
+  [32m✓[0m ~/.bash_profile → /home/frederic.lin/afs/.confs/Config/.bash_profile
+  [32m✓[0m ~/.bash_logout → /home/frederic.lin/afs/.confs/Config/.bash_logout
+  [32m✓[0m ~/.gitconfig → /home/frederic.lin/afs/.confs/Config/.gitconfig
+  [32m✓[0m ~/.vimrc → /home/frederic.lin/afs/.confs/Config/.vimrc
+
+[34m── Autres configs ───────────────────────────────────────────[0m
+  [32m✓[0m ~/.gdbinit → /home/frederic.lin/afs/.confs/Config/gdbinit
+  [32m✓[0m ~/.emacs.d/init.el → /home/frederic.lin/afs/.confs/Config/emacs/init.el
+
+[34m── Clang-format ─────────────────────────────────────────────[0m
+  [32m✓[0m clang-format-c-current → /home/frederic.lin/afs/.config/clang-format/clang-format-c-epita-ing1-2025-2026
+  [32m✓[0m clang-format-cxx-current → /home/frederic.lin/afs/.config/clang-format/clang-format-cxx-epita-ing1-2025-2026
+
+[34m── Scripts ──────────────────────────────────────────────────[0m
+  [32m✓[0m scripts/system/double.sh est exécutable
+  [32m✓[0m scripts/system/open_afs.sh est exécutable
+  [32m✓[0m scripts/system/afs_cleaner.sh est exécutable
+  [32m✓[0m scripts/system/brightness.sh est exécutable
+  [32m✓[0m scripts/system/i3lock.sh est exécutable
+  [32m✓[0m scripts/system/update_conf.sh est exécutable
+  [32m✓[0m scripts/menus/power_menu.sh est exécutable
+  [32m✓[0m scripts/menus/epita_menu.sh est exécutable
+  [32m✓[0m scripts/startup_scripts/startup.sh est exécutable
+  [32m✓[0m scripts/startup_scripts/aklogger.sh est exécutable
+  [32m✓[0m scripts/wallpaper_scripts/change_wallpaper.sh est exécutable
+  [32m✓[0m Config/Optimot/load_keyboard.sh est exécutable
+
+[34m── Packages nix ─────────────────────────────────────────────[0m
+  [32m✓[0m autotiling installé (/home/frederic.lin/.nix-profile/bin/autotiling)
+  [32m✓[0m picom installé (/home/frederic.lin/.nix-profile/bin/picom)
+  [32m✓[0m polybar installé (/home/frederic.lin/.nix-profile/bin/polybar)
+  [32m✓[0m rofi installé (/home/frederic.lin/.nix-profile/bin/rofi)
+  [32m✓[0m alacritty installé (/run/current-system/sw/bin/alacritty)
+  [32m✓[0m feh installé (/run/current-system/sw/bin/feh)
+  [32m✓[0m matugen installé (/home/frederic.lin/.nix-profile/bin/matugen)
+  [32m✓[0m dunst installé (/home/frederic.lin/.nix-profile/bin/dunst)
+  [32m✓[0m flameshot installé (/home/frederic.lin/.nix-profile/bin/flameshot)
+  [33m![0m fzf non trouvé dans le PATH
+  [33m![0m fd non trouvé dans le PATH
+  [33m![0m zoxide non trouvé dans le PATH
+  [32m✓[0m bat installé (/home/frederic.lin/.nix-profile/bin/bat)
+  [32m✓[0m emacs installé (/run/current-system/sw/bin/emacs)
+
+[34m── Matugen (couleurs générées) ──────────────────────────────[0m
+  [32m✓[0m /home/frederic.lin/afs/.config/i3/colors.conf
+  [32m✓[0m /home/frederic.lin/afs/.config/polybar/colors.ini
+  [32m✓[0m /home/frederic.lin/afs/.config/rofi/colors.rasi
+  [32m✓[0m /home/frederic.lin/afs/.config/alacritty/colors.toml
+  [32m✓[0m /home/frederic.lin/afs/.config/dunst/dunstrc
+
+[34m─────────────────────────────────────────────────────────────[0m
+  [32m✓ 50 OK[0m   [31m✗ 0 ERREURS[0m   [33m! 4 AVERTISSEMENTS[0m
+
+[33mConfig installée avec des avertissements.[0m
+Si matugen n'a pas encore tourné :
+  matugen image ~/afs/.confs/wallpapers/default.jpg
+
