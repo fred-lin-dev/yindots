@@ -23,7 +23,7 @@ NC="\033[0m"
 # ── Chemins de la config ───────────────────────────────────────────────────────
 AFS="$HOME/afs"
 CONFS="$AFS/.confs"
-CONFIG="$CONFS/config"
+CONFIG="$CONFS/Config/config"
 SCRIPTS="$CONFS/scripts"
 WALLPAPERS="$CONFS/wallpapers"
 

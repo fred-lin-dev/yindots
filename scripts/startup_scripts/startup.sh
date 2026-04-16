@@ -47,9 +47,9 @@ if [ ! -x "$HOME/.nix-profile/bin/bat" ]; then
 fi
 
 # ── Pywalfox (Firefox theming via matugen) ─────────────────────────────────────
-if [ -f "$CONFS/config/matugen/pywalfox.json" ]; then
+if [ -f "$CONFIG/matugen/pywalfox.json" ]; then
     mkdir -p "$HOME/.cache/wal"
-    ln -sf "$CONFS/config/matugen/pywalfox.json" "$HOME/.cache/wal/colors.json"
+    ln -sf "$CONFIG/matugen/pywalfox.json" "$HOME/.cache/wal/colors.json"
 
     if command -v pywalfox > /dev/null 2>&1; then
         pywalfox install > /dev/null 2>&1
