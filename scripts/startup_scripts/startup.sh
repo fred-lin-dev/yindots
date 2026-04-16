@@ -37,6 +37,7 @@ if [ ! -x "$HOME/.nix-profile/bin/bat" ]; then
     nixpkgs#zoxide
     nixpkgs#matugen
     nixpkgs#starship
+    nixpkgs#rofi
     "
 
     if nix profile install $PACKAGES --impure > /dev/null 2>&1; then

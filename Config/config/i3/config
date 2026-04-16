@@ -30,8 +30,9 @@ no_focus   [title="fbgif"]
 # Script de démarrage principal (packages nix, AFS, wallpaper, matugen...)
 exec --no-startup-id sh $scripts/startup_scripts/startup.sh
 
-# Propager les variables XIM aux apps DBus (GTK_IM_MODULE, QT_IM_MODULE, XMODIFIERS)
-exec --no-startup-id dbus-update-activation-environment --systemd GTK_IM_MODULE QT_IM_MODULE XMODIFIERS XCOMPOSEFILE
+# Propager les variables XIM aux apps DBus — source .xprofile d'abord car NixOS
+# ne le fait pas forcément depuis le display manager
+exec --no-startup-id sh -c '. ~/.xprofile 2>/dev/null; dbus-update-activation-environment --systemd GTK_IM_MODULE QT_IM_MODULE XMODIFIERS XCOMPOSEFILE'
 
 # Clavier Optimot
 exec_always --no-startup-id $confs/Config/Optimot/load_keyboard.sh
