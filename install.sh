@@ -184,22 +184,32 @@ fi
 # 9. Firefox — profil persisté sur AFS
 # ══════════════════════════════════════════════════════════════════════════════
 info "Firefox (profil AFS)..."
-AFS_MOZILLA="$(dirname "$CONFS")/.mozilla"
-LOCAL_MOZILLA="$HOME/.mozilla"
 
-mkdir -p "$AFS_MOZILLA"
-
-if [ -L "$LOCAL_MOZILLA" ]; then
-    ok "  ~/.mozilla déjà symlinké → $(readlink "$LOCAL_MOZILLA")"
-elif [ -d "$LOCAL_MOZILLA" ] && [ ! -L "$LOCAL_MOZILLA" ]; then
-    warn "  ~/.mozilla existe en local — migration vers AFS..."
-    cp -r "$LOCAL_MOZILLA/." "$AFS_MOZILLA/"
-    rm -rf "$LOCAL_MOZILLA"
-    ln -s "$AFS_MOZILLA" "$LOCAL_MOZILLA"
-    ok "  Profil migré et symlinké → $AFS_MOZILLA"
+# Vérifier que ~/afs est bien un filesystem AFS avant de déplacer le profil.
+# Si AFS n'est pas encore monté, le profil finirait sur le disque local et
+# serait perdu à la prochaine session.
+AFS_FS_TYPE=$(df --output=fstype "$HOME/afs" 2>/dev/null | tail -1 | tr -d ' ')
+if [ "$AFS_FS_TYPE" != "afs" ]; then
+    warn "  AFS non monté (type: ${AFS_FS_TYPE:-?}) — profil Firefox ignoré"
+    warn "  Relancer install.sh une fois AFS disponible pour le configurer"
 else
-    ln -s "$AFS_MOZILLA" "$LOCAL_MOZILLA"
-    ok "  ~/.mozilla → $AFS_MOZILLA"
+    AFS_MOZILLA="$(dirname "$CONFS")/.mozilla"
+    LOCAL_MOZILLA="$HOME/.mozilla"
+
+    mkdir -p "$AFS_MOZILLA"
+
+    if [ -L "$LOCAL_MOZILLA" ]; then
+        ok "  ~/.mozilla déjà symlinké → $(readlink "$LOCAL_MOZILLA")"
+    elif [ -d "$LOCAL_MOZILLA" ] && [ ! -L "$LOCAL_MOZILLA" ]; then
+        warn "  ~/.mozilla existe en local — migration vers AFS..."
+        cp -r "$LOCAL_MOZILLA/." "$AFS_MOZILLA/"
+        rm -rf "$LOCAL_MOZILLA"
+        ln -s "$AFS_MOZILLA" "$LOCAL_MOZILLA"
+        ok "  Profil migré et symlinké → $AFS_MOZILLA"
+    else
+        ln -s "$AFS_MOZILLA" "$LOCAL_MOZILLA"
+        ok "  ~/.mozilla → $AFS_MOZILLA"
+    fi
 fi
 
 # ══════════════════════════════════════════════════════════════════════════════

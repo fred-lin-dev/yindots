@@ -38,9 +38,16 @@ if [ ! -x "$HOME/.nix-profile/bin/bat" ]; then
     nixpkgs#matugen
     nixpkgs#starship
     nixpkgs#rofi
+    nixpkgs#picom
+    nixpkgs#polybar
+    nixpkgs#feh
+    nixpkgs#bc
+    nixpkgs#playerctl
+    nixpkgs#nerd-fonts.jetbrains-mono
     "
 
     if nix profile install $PACKAGES --impure > /dev/null 2>&1; then
+        fc-cache -fv > /dev/null 2>&1
         dunstify -r "$IDB" -t 5000 "Packages installés [OK]"
     else
         dunstify -r "$IDB" -u critical "Packages installation [FAIL]"
