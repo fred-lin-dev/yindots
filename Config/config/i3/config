@@ -65,7 +65,7 @@ bindsym $mod+n          exec --no-startup-id alacritty --class "float_window" -e
 bindsym $mod+b          exec blueman-manager
 bindsym $mod+Shift+p    exec pavucontrol
 bindsym $mod+Shift+t    exec --no-startup-id nix-shell -p xfce.thunar --run thunar
-bindsym $mod+Shift+a    exec --no-startup-id bash -c '[ ! -d "$HOME/Obsidian" ] && git clone git@github.com:fred-lin-dev/Obsidian.git "$HOME/Obsidian"; NIXPKGS_ALLOW_UNFREE=1 nix-shell -p obsidian --run "obsidian $HOME/Obsidian"'
+
 
 # ── Menus ─────────────────────────────────────────────────────────────────────
 bindsym $mod+d          exec --no-startup-id rofi -show drun -dpi 1
