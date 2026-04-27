@@ -11,7 +11,7 @@ AFS="$HOME/afs"
 CONFS="$AFS/.confs"
 CFG="$CONFS/Config"
 WALLPAPERS="$CONFS/wallpapers"
-REPO_WALLPAPER="https://github.com/tsunooky/epidots-wallpapers.git"
+REPO_WALLPAPER="git@github.com:fred-lin-dev/yinpi-wallpaper.git"
 
 GREEN=$(printf '\033[0;32m')
 BLUE=$(printf '\033[0;34m')
