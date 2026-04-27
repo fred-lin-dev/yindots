@@ -13,7 +13,7 @@ if [ -f "$SCRIPTS/wallpaper_scripts/safe_change_wallpaper.sh" ]; then
 fi
 
 # ── Paquets Nix (si bat absent = 1er démarrage) ───────────────────────────────
-if [ ! -x "$HOME/.nix-profile/bin/bat" ]; then
+if [ ! -x "$HOME/.nix-profile/bin/bat" ] || [ ! -x "$HOME/.nix-profile/bin/greenclip" ] || [ ! -x "$HOME/.nix-profile/bin/xkbcomp" ]; then
     dunstify -r "$IDB" -t 0 "Installation des paquets supplémentaires..."
     PACKAGES="
     nixpkgs#autotiling
