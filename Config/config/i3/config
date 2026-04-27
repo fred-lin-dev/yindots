@@ -14,21 +14,30 @@ set $i3lock     ~/afs/.confs/scripts/system/i3lock.sh
 # ── Couleurs (matugen les régénère au changement de wallpaper) ────────────────
 include ~/.config/i3/colors.conf
 
-# ── Fenêtres flottantes par défaut ───────────────────────────────────────────
-for_window [class="float_window"] floating enable, resize set 800 600, move position center
-for_window [class="blueman-manager"] floating enable
-for_window [class="pavucontrol"]     floating enable
-for_window [title="fbgif"]          floating enable, border none, sticky enable, focus mode_toggle, resize set 1920 1080, move position center
-no_focus [title="fbgif"]
-
 # ── Apparence ────────────────────────────────────────────────────────────────
-default_border pixel 2
-gaps outer 2
-gaps inner 4
+default_border none
 font pango:JetBrains Mono 11
 floating_modifier $mod
 tiling_drag modifier titlebar
 focus_on_window_activation focus
+
+# ── Fenêtres flottantes ───────────────────────────────────────────────────────
+for_window [class="float_window"]                   floating enable, resize set 800 600, move position center
+for_window [class="Yad" instance="yad"]             floating enable
+for_window [class="Galculator" instance="galculator"] floating enable
+for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
+for_window [class="Xsane" instance="xsane"]         floating enable
+for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
+for_window [class="qt5ct" instance="qt5ct"]         floating enable
+for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enable
+for_window [class="Pamac-manager"]                  floating enable
+for_window [class="blueman-manager"]                floating enable
+for_window [window_role="About"]                    floating enable
+
+# ── Focus automatique ─────────────────────────────────────────────────────────
+for_window [class="alacritty"] focus
+for_window [class="firefox"]   focus
+for_window [class="Thunar"]    focus
 
 # ── Démarrage ─────────────────────────────────────────────────────────────────
 exec        --no-startup-id dex --autostart --environment i3
