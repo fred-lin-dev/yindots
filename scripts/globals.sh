@@ -25,6 +25,7 @@ WALLPAPERS="$CONFS/wallpapers"
 # URLS
 REPO_YINDOTS="https://github.com/fred-lin-dev/yindots.git"
 RAW_REPO_YINDOTS="https://raw.githubusercontent.com/fred-lin-dev/yindots/refs/heads/$BRANCH/"
+REPO_WALLPAPER="git@github.com:fred-lin-dev/yinpi-wallpaper.git"
 
 # VERSION
 VERSION_FILE="$CONFS/version"
