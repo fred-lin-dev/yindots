@@ -1,10 +1,9 @@
-#!/usr/bin/env bash
-# Vérifie si une mise à jour de la config est disponible
+#!/bin/sh
 
-source "$HOME/afs/.confs/scripts/globals.sh"
+. "$HOME/afs/.confs/scripts/globals.sh"
 
 if [ "$VERSION" -lt "$REPO_VERSION" ] 2>/dev/null; then
-    dunstify "Mise à jour disponible !" \
-        "Lance update-conf pour mettre à jour\n(Actuel: $VERSION, Dernier: $REPO_VERSION)" \
+    dunstify "Mise à jour yindots disponible !" \
+        "Lance update-conf\n(Installée: $VERSION | Dispo: $REPO_VERSION)" \
         -t 60000
 fi

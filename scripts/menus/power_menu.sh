@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 source "$HOME/afs/.confs/scripts/globals.sh"
 
@@ -7,15 +7,15 @@ theme="$CONFIG/rofi/power_menu.rasi"
 
 # CMDs
 uptime="$(uptime -p | sed -e 's/up //g')"
-host=" $USER"
+host=" $USER"
 
 # Options
-shutdown='  Shutdown'
-reboot='  Reboot'
-lock='  Lock'
-logout='  Logout'
-yes='  Yes'
-no='  No'
+shutdown='  Shutdown'
+reboot='  Reboot'
+lock='  Lock'
+logout='  Logout'
+yes='  Yes'
+no='  No'
 
 # Rofi CMD
 rofi_cmd() {
@@ -41,12 +41,12 @@ confirm_cmd() {
 
 # Ask for confirmation
 confirm_exit() {
-    printf '%s\n' "$yes" "$no" | confirm_cmd
+    echo -e "$yes\n$no" | confirm_cmd
 }
 
 # Pass variables to rofi dmenu
 run_rofi() {
-    printf '%s\n' "$lock" "$logout" "$reboot" "$shutdown" | rofi_cmd
+    echo -e "$lock\n$logout\n$reboot\n$shutdown" | rofi_cmd
 }
 
 # Execute Command
@@ -81,3 +81,4 @@ case ${chosen} in
         run_cmd --logout
         ;;
 esac
+

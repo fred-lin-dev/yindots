@@ -139,9 +139,6 @@ xkb_symbols "optimot_ansi_18" {
 	key <SPCE> { type[group1] = "FOUR_LEVEL_CONTROL", [ space, U202F, nobreakspace, hyphen, space, space ] }; //       ­
 
 	include "level3(ralt_switch)"
-
-	// Touche compose sur la touche Menu (entre AltGr et Ctrl droit)
-	key <MENU> { [ Multi_key ] };
 };
 
 };

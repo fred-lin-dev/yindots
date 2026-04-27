@@ -93,7 +93,6 @@ command! Clang ClangFormat
 " =====================
 let g:termdebug_wide = 1    " Layout horizontal pour le débogueur intégré GDB
 
-command! SessionEnd rightbelow vsplit ~/Templates/TEMPLATE_SESSION_NOTES.md
 
 " ────────────────────────────────────────────────
 " Souris activée et numéros visibles par défaut

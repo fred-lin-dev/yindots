@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 source "$HOME/afs/.confs/scripts/globals.sh"
 
@@ -15,4 +15,8 @@ echo "$REL_PATH" > "$CONFS/.bg"
 matugen image "$1" > /dev/null 2>&1
 feh --bg-fill "$1"
 
-[ -f "$HOME/.fehbg" ] && cp "$HOME/.fehbg" "$CONFS/"
+cp "$HOME/.fehbg" "$CONFS/"
+
+if [ -x "$CONFS/install.sh" ]; then
+    "$CONFS/install.sh" > /dev/null 2>&1
+fi

@@ -1,26 +1,3 @@
-# Emacs backups & auto-save
-*~
-\#*\#
-.#*
-
-# Matugen outputs (générés à runtime, ne pas versionner)
-Config/config/alacritty/colors.toml
-Config/config/polybar/colors.ini
-Config/config/rofi/colors.rasi
-Config/config/dunst/dunstrc
-Config/config/gtk-3.0/colors.css
-Config/config/gtk-4.0/colors.css
-Config/config/flameshot/flameshot.ini
-Config/config/qt5ct/colors/matugen.conf
-Config/config/qt6ct/colors/matugen.conf
-
-# Fichier .fehbg (chemin absolu, change selon la machine)
-Config/.fehbg
-
-# Historiques shell
-Config/.bash_history
-
-# Fichiers temporaires
-/tmp/
-*.swp
-*.swo
+.install_backup_*/
+*.bak
+.bash_history

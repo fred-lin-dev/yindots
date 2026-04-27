@@ -1,7 +1,5 @@
-# Couleurs générées par matugen — voir Config/config/matugen/templates/alacritty.toml
-# Le fichier colors.toml est créé au premier lancement de matugen
 [general]
-import = ["~/.config/alacritty/colors.toml"]
+import = ["~/afs/.confs/config/alacritty/colors.toml"]
 
 [window]
 opacity = 0.9
@@ -13,3 +11,11 @@ blinking = "Always"
 
 [cursor]
 blink_interval = 500
+
+[font]
+size = 11
+glyph_offset = { x = 0, y = 0 }
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
+italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
+bold_italic = { family = "JetBrainsMono Nerd Font", style = "Bold Italic" }

@@ -1,12 +1,14 @@
-#!/usr/bin/env bash
+#!/bin/sh
+# Ouvre une note persistante dans vim (singleton : une seule instance)
 
-source "$HOME/afs/.confs/scripts/globals.sh"
+. "$HOME/afs/.confs/scripts/globals.sh"
 
-LOCK_FILE="/tmp/note_${USER}.lock"
+LOCK_FILE="/tmp/note.lock"
 NOTE_FILE="$AFS/.note.txt"
 
-(
-    flock -n 9 || exit 0
+if [ ! -f "$LOCK_FILE" ] || ! kill -s 0 "$(cat "$LOCK_FILE")" 2>/dev/null; then
     rm -f "${NOTE_FILE}.swp"
+    echo "$PPID" > "$LOCK_FILE"
     vim "$NOTE_FILE" +startinsert
-) 9>"$LOCK_FILE"
+    rm -f "$LOCK_FILE"
+fi

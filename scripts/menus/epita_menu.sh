@@ -1,16 +1,16 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 source "$HOME/afs/.confs/scripts/globals.sh"
 
 PRESENCE_FILE="$CONFS/.check_presence_url"
 theme="$CONFIG/rofi/epita_menu.rasi"
-host="  Epita Hub"
+host="  Epita Hub"
 
-check_pres='  Check Presence'
-moodle='  Moodle'
-intranet='  Intranet'
-news='  Epita News'
-set_check='  Set Check Presence'
+check_pres='  Check Presence'
+moodle='  Moodle'
+intranet='  Intranet'
+news='  Epita News'
+set_check='  Set Check Presence'
 
 rofi_cmd() {
     rofi -dmenu -dpi 1 \
@@ -24,13 +24,13 @@ ask_url_cmd() {
          -theme-str 'prompt {background-color: @selected; text-color: @background; padding: 8px 15px; border-radius: 20px;}' \
          -theme-str 'entry {background-color: inherit; text-color: @selected; placeholder-color: @selected; padding: 8px 15px;}' \
          -dmenu \
-         -p ' Link' \
+         -p ' Link' \
          -theme ${theme} \
          -dpi 1
 }
 
 run_rofi() {
-    printf '%s\n' "$check_pres" "$moodle" "$intranet" "$news" "$set_check" | rofi_cmd
+    echo -e "$check_pres\n$moodle\n$intranet\n$news\n$set_check" | rofi_cmd
 }
 
 chosen="$(run_rofi)"

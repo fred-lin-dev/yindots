@@ -1,15 +1,15 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 source "$HOME/afs/.confs/scripts/globals.sh"
 
-if [ -z "$CONFS" ] || [ -z "$CONFIG" ] || [ -z "$AFS" ]; then
-    printf "${RED}Error: CONFS, CONFIG or AFS variables are not set. Aborting.${NC}\n"
+if [ -z "$CONFS" ] || [ -z "$CONFIG" ]; then
+    printf "${RED}Error: CONFS or CONFIG variables are not set. Aborting.${NC}\n"
     exit 1
 fi
 
 used=$(fs quota ~/afs 2>/dev/null | cut -d'%' -f1)
 printf "${BLUE}::${NC} %-42s" "Current AFS usage:"
-printf "[${RED} %s%%${NC}]\n" "$used"
+echo -e "[${RED} $used%${NC}]"
 
 printf "${BLUE}::${NC} %-42s" "Removing bloatware..."
 
@@ -77,4 +77,4 @@ printf "[${GREEN}OK${NC}]\n"
 
 used_after=$(fs quota ~/afs 2>/dev/null | cut -d'%' -f1)
 printf "${BLUE}::${NC} %-42s" "Current AFS usage:"
-printf "[${GREEN} %s%%${NC}]\n" "$used_after"
+echo -e "[${GREEN} $used_after%${NC}]"

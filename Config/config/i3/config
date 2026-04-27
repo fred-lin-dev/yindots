@@ -1,13 +1,9 @@
-# ══════════════════════════════════════════════════════════════════════════════
-#   i3 config — EPITA NixOS
-#   Sources : epidots (structure, autotiling, matugen, scripts) +
-#             export-config (hjkl nav, raccourcis personnels, Optimot)
-# ══════════════════════════════════════════════════════════════════════════════
+# yindots — i3 config (NixOS EPITA)
+# Mod4 = Super/Win
 
-# Set mod key : Mod4 = WIN | Mod1 = ALT
 set $mod Mod4
 
-# ── Chemins globaux ───────────────────────────────────────────────────────────
+# ── Variables AFS ──────────────────────────────────────────────────────────────
 set $afs        ~/afs
 set $confs      ~/afs/.confs
 set $config     ~/afs/.confs/Config/config
@@ -15,215 +11,136 @@ set $scripts    ~/afs/.confs/scripts
 set $wallpapers ~/afs/.confs/wallpapers
 set $i3lock     ~/afs/.confs/scripts/system/i3lock.sh
 
-# ── Couleurs matugen (générées par matugen image ...) ────────────────────────
+# ── Couleurs (matugen les régénère au changement de wallpaper) ────────────────
 include ~/.config/i3/colors.conf
 
-# ── Règles fenêtres flottantes ────────────────────────────────────────────────
-for_window [class="float_window"]    floating enable, resize set 800 600, move position center
+# ── Fenêtres flottantes par défaut ───────────────────────────────────────────
+for_window [class="float_window"] floating enable, resize set 800 600, move position center
 for_window [class="blueman-manager"] floating enable
 for_window [class="pavucontrol"]     floating enable
-for_window [title="fbgif"]           floating enable, border none, sticky enable, focus mode_toggle, resize set 1920 1080, move position center
-no_focus   [title="fbgif"]
+for_window [title="fbgif"]          floating enable, border none, sticky enable, focus mode_toggle, resize set 1920 1080, move position center
+no_focus [title="fbgif"]
 
-# ── Démarrage ────────────────────────────────────────────────────────────────
-
-# Script de démarrage principal (packages nix, AFS, wallpaper, matugen...)
-exec --no-startup-id sh $scripts/startup_scripts/startup.sh
-
-# Propager les variables XIM aux apps DBus — source .xprofile d'abord car NixOS
-# ne le fait pas forcément depuis le display manager
-exec --no-startup-id sh -c '. ~/.xprofile 2>/dev/null; dbus-update-activation-environment --systemd GTK_IM_MODULE QT_IM_MODULE XMODIFIERS XCOMPOSEFILE'
-
-# Clavier Optimot
-exec_always --no-startup-id $confs/Config/Optimot/load_keyboard.sh
-
-# XDG autostart (EPITA)
-exec --no-startup-id dex --autostart --environment i3
-
-# Verrouillage auto après 5 min d'inactivité
-exec --no-startup-id xset s 300 300
-exec --no-startup-id xss-lock --transfer-sleep-lock -- $i3lock --nofork
-
-# Autotiling — disposition automatique intelligente
-exec_always --no-startup-id autotiling
-
-# Picom — transparence, blur, coins arrondis
-exec_always --no-startup-id picom --config ~/.config/picom/picom.conf --xrender-sync-fence
-
-# Polybar
-exec_always --no-startup-id "killall -q polybar; polybar main"
-
-# NetworkManager applet (systray)
-exec --no-startup-id nm-applet
-
-# Restaurer le dernier fond d'écran
-exec --no-startup-id $confs/.fehbg
-
-# Précharger Thunar pour un lancement plus rapide
-exec --no-startup-id nix-shell -p xfce.thunar --run "true"
-
-# ── Paramètres généraux ───────────────────────────────────────────────────────
+# ── Apparence ────────────────────────────────────────────────────────────────
 default_border pixel 2
 gaps outer 2
 gaps inner 4
-
 font pango:JetBrains Mono 11
-
 floating_modifier $mod
 tiling_drag modifier titlebar
 focus_on_window_activation focus
 
+# ── Démarrage ─────────────────────────────────────────────────────────────────
+exec        --no-startup-id dex --autostart --environment i3
+exec        --no-startup-id nm-applet
+exec        --no-startup-id xset s 300 300
+exec        --no-startup-id xss-lock --transfer-sleep-lock -- $i3lock --nofork
+exec        --no-startup-id sh $scripts/startup_scripts/startup.sh
+
+exec_always --no-startup-id autotiling
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf --xrender-sync-fence
+exec_always --no-startup-id "killall -q polybar; polybar main"
+
 # ── Terminal ──────────────────────────────────────────────────────────────────
-# $mod+Return       → alacritty (terminal principal)
-# $mod+Ctrl+Return  → terminal dans ~/afs
-# $mod+Shift+Return → terminal dans le dossier courant de la fenêtre active
-bindsym $mod+Return       exec --no-startup-id alacritty
-bindsym $mod+Ctrl+Return  exec --no-startup-id $scripts/system/open_afs.sh
-bindsym $mod+Shift+Return exec --no-startup-id $scripts/system/double.sh
+bindsym $mod+Return         exec --no-startup-id sh $scripts/system/open_afs.sh
+bindsym $mod+Ctrl+Return    exec --no-startup-id alacritty
+bindsym $mod+Shift+Return   exec --no-startup-id sh $scripts/system/double.sh
 
-# ── Navigation (hjkl + flèches) ───────────────────────────────────────────────
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+# ── Apps ──────────────────────────────────────────────────────────────────────
+bindsym $mod+f          exec firefox
+bindsym $mod+Shift+f    exec firefox
+bindsym $mod+n          exec --no-startup-id alacritty --class "float_window" -e sh $scripts/system/note.sh
+bindsym $mod+b          exec blueman-manager
+bindsym $mod+Shift+p    exec pavucontrol
+bindsym $mod+Shift+a    exec --no-startup-id bash -c '[ ! -d "$HOME/Obsidian" ] && git clone git@github.com:yinpi21/Obsidian.git "$HOME/Obsidian"; NIXPKGS_ALLOW_UNFREE=1 nix-shell -p obsidian --run "obsidian $HOME/Obsidian"'
 
-bindsym $mod+Left  focus left
-bindsym $mod+Down  focus down
-bindsym $mod+Up    focus up
-bindsym $mod+Right focus right
+# ── Menus ─────────────────────────────────────────────────────────────────────
+bindsym $mod+d          exec --no-startup-id rofi -show drun -dpi 1
+bindsym $mod+t          exec --no-startup-id rofi -show window -dpi 1
+bindsym $mod+c          exec --no-startup-id sh $scripts/menus/epita_menu.sh
+bindsym $mod+Shift+e    exec --no-startup-id sh $scripts/menus/power_menu.sh
+bindsym $mod+Shift+w    exec --no-startup-id sh $scripts/menus/wallpaper_menu.sh
 
-# ── Déplacement de fenêtres ───────────────────────────────────────────────────
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+# ── Wallpaper ─────────────────────────────────────────────────────────────────
+bindsym $mod+Shift+b    exec --no-startup-id sh $scripts/wallpaper_scripts/random_wallpaper.sh
+
+# ── Lock / Verrou ─────────────────────────────────────────────────────────────
+bindsym $mod+i          exec --no-startup-id sh $i3lock
+bindsym $mod+l          exec --no-startup-id sh $i3lock
+
+# ── Screenshot ────────────────────────────────────────────────────────────────
+bindsym Print           exec flameshot gui
+bindsym $mod+Shift+s    exec flameshot gui
+
+# ── Navigation (flèches uniquement) ──────────────────────────────────────────
+bindsym $mod+Left       focus left
+bindsym $mod+Down       focus down
+bindsym $mod+Up         focus up
+bindsym $mod+Right      focus right
 
 bindsym $mod+Shift+Left  move left
 bindsym $mod+Shift+Down  move down
 bindsym $mod+Shift+Up    move up
 bindsym $mod+Shift+Right move right
 
-# ── Split ─────────────────────────────────────────────────────────────────────
-# mod+backslash = split horizontal  (mod+h étant pris par focus left)
-# mod+v         = split vertical
-bindsym $mod+backslash split h
-bindsym $mod+v         split v
-
-# ── Layouts ───────────────────────────────────────────────────────────────────
-bindsym $mod+f       fullscreen toggle
-bindsym F11          fullscreen toggle
-bindsym $mod+s       layout stacking
-bindsym $mod+w       layout tabbed
-bindsym $mod+e       layout toggle split
-
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+space       focus mode_toggle
-bindsym $mod+a           focus parent
-
-# ── Verrouillage ─────────────────────────────────────────────────────────────
-bindsym $mod+i exec --no-startup-id $i3lock
-
-# ── Applications ──────────────────────────────────────────────────────────────
-# Fermer la fenêtre active
-bindsym $mod+Shift+q kill
-
-# Lanceur d'applications
-bindsym $mod+d exec --no-startup-id rofi -show drun -dpi 1
-
-# Firefox
-bindsym $mod+Shift+f exec firefox
-# Raccourci "flashbang" remplacé par ouverture simple de Firefox
-bindsym $mod+Ctrl+f  exec firefox
-
-# Outlook EPITA
-bindsym $mod+Shift+o exec firefox 'https://outlook.office.com/mail/?culture=fr-fr&country=fr'
-
-# Gestionnaire audio
-bindsym $mod+Shift+p exec pavucontrol
-
-# Gestionnaire de fichiers (nix-shell pour NixOS)
-bindsym $mod+Shift+t exec --no-startup-id nix-shell -p xfce.thunar --run thunar
-
-# Bluetooth
-bindsym $mod+b exec blueman-manager
-
-# Note rapide (fenêtre flottante)
-bindsym $mod+n exec --no-startup-id alacritty --class "float_window" -e $scripts/system/note.sh
-
-# Screenshot
-bindsym $mod+Shift+s exec flameshot gui
-bindsym Print         exec flameshot gui
-
-# ── Menus ─────────────────────────────────────────────────────────────────────
-bindsym $mod+Shift+e exec --no-startup-id $scripts/menus/power_menu.sh
-bindsym $mod+c       exec --no-startup-id $scripts/menus/epita_menu.sh
-
-# ── Wallpaper ─────────────────────────────────────────────────────────────────
-bindsym $mod+Shift+b exec --no-startup-id $scripts/wallpaper_scripts/random_wallpaper.sh
-bindsym $mod+Shift+w exec --no-startup-id tree $wallpapers > /dev/null 2>&1 && $scripts/menus/wallpaper_menu.sh
-
 # ── Workspaces ────────────────────────────────────────────────────────────────
-bindsym $mod+1 workspace number "1"
-bindsym $mod+2 workspace number "2"
-bindsym $mod+3 workspace number "3"
-bindsym $mod+4 workspace number "4"
-bindsym $mod+5 workspace number "5"
-bindsym $mod+6 workspace number "6"
-bindsym $mod+7 workspace number "7"
-bindsym $mod+8 workspace number "8"
-bindsym $mod+9 workspace number "9"
-bindsym $mod+0 workspace number "10"
+bindsym $mod+Tab        workspace next
+bindsym $mod+Shift+Tab  workspace prev
 
-bindsym $mod+Shift+1 move container to workspace number "1"
-bindsym $mod+Shift+2 move container to workspace number "2"
-bindsym $mod+Shift+3 move container to workspace number "3"
-bindsym $mod+Shift+4 move container to workspace number "4"
-bindsym $mod+Shift+5 move container to workspace number "5"
-bindsym $mod+Shift+6 move container to workspace number "6"
-bindsym $mod+Shift+7 move container to workspace number "7"
-bindsym $mod+Shift+8 move container to workspace number "8"
-bindsym $mod+Shift+9 move container to workspace number "9"
-bindsym $mod+Shift+0 move container to workspace number "10"
+bindsym $mod+1  workspace number "1"
+bindsym $mod+2  workspace number "2"
+bindsym $mod+3  workspace number "3"
+bindsym $mod+4  workspace number "4"
+bindsym $mod+5  workspace number "5"
+bindsym $mod+6  workspace number "6"
+bindsym $mod+7  workspace number "7"
+bindsym $mod+8  workspace number "8"
+bindsym $mod+9  workspace number "9"
+bindsym $mod+0  workspace number "10"
 
-bindsym $mod+Tab       workspace next
-bindsym $mod+Shift+Tab workspace prev
+bindsym $mod+Shift+1    move container to workspace number "1"
+bindsym $mod+Shift+2    move container to workspace number "2"
+bindsym $mod+Shift+3    move container to workspace number "3"
+bindsym $mod+Shift+4    move container to workspace number "4"
+bindsym $mod+Shift+5    move container to workspace number "5"
+bindsym $mod+Shift+6    move container to workspace number "6"
+bindsym $mod+Shift+7    move container to workspace number "7"
+bindsym $mod+Shift+8    move container to workspace number "8"
+bindsym $mod+Shift+9    move container to workspace number "9"
+bindsym $mod+Shift+0    move container to workspace number "10"
 
-# ── i3 meta ───────────────────────────────────────────────────────────────────
-bindsym $mod+Shift+c reload
-bindsym $mod+Shift+r restart
+# ── Layout ────────────────────────────────────────────────────────────────────
+bindsym $mod+h          split h
+bindsym $mod+v          split v
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space      focus mode_toggle
+bindsym $mod+Shift+f    fullscreen toggle
+bindsym F11             fullscreen toggle
+bindsym $mod+Shift+q    kill
 
-# ── Touches matérielles (volume, luminosité, média) ───────────────────────────
-# Volume
-bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
-
-# Luminosité (certains claviers EPITA mappent sur les touches audio)
-bindsym XF86MonBrightnessUp   exec --no-startup-id $scripts/system/brightness.sh up
-bindsym XF86MonBrightnessDown exec --no-startup-id $scripts/system/brightness.sh down
-
-# Média
-bindsym XF86AudioPlay  exec playerctl play-pause
-bindsym XF86AudioPause exec playerctl play-pause
-bindsym XF86AudioNext  exec playerctl next
-bindsym XF86AudioPrev  exec playerctl previous
-
-# ── Mode resize ───────────────────────────────────────────────────────────────
+# ── Resize ────────────────────────────────────────────────────────────────────
 mode "resize" {
-    bindsym h resize shrink width  10 px or 10 ppt
-    bindsym j resize grow   height 10 px or 10 ppt
-    bindsym k resize shrink height 10 px or 10 ppt
-    bindsym l resize grow   width  10 px or 10 ppt
-
-    bindsym Left  resize shrink width  10 px or 10 ppt
-    bindsym Down  resize grow   height 10 px or 10 ppt
-    bindsym Up    resize shrink height 10 px or 10 ppt
-    bindsym Right resize grow   width  10 px or 10 ppt
-
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-    bindsym $mod+r mode "default"
+    bindsym Left    resize shrink width  10 px or 10 ppt
+    bindsym Down    resize grow   height 10 px or 10 ppt
+    bindsym Up      resize shrink height 10 px or 10 ppt
+    bindsym Right   resize grow   width  10 px or 10 ppt
+    bindsym Return  mode "default"
+    bindsym Escape  mode "default"
 }
-
 bindsym $mod+r mode "resize"
+
+# ── i3 ────────────────────────────────────────────────────────────────────────
+bindsym $mod+Shift+c    reload
+bindsym $mod+Shift+r    restart
+
+# ── Volume & Luminosité ───────────────────────────────────────────────────────
+bindsym XF86AudioMute           exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioRaiseVolume    exec --no-startup-id sh $scripts/system/brightness.sh volume_up
+bindsym XF86AudioLowerVolume    exec --no-startup-id sh $scripts/system/brightness.sh volume_down
+bindsym XF86AudioMicMute        exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86AudioPlay           exec playerctl play-pause
+bindsym XF86AudioPause          exec playerctl play-pause
+bindsym XF86AudioNext           exec playerctl next
+bindsym XF86AudioPrev           exec playerctl previous
+bindsym XF86MonBrightnessUp     exec --no-startup-id sh $scripts/system/brightness.sh brightness_up
+bindsym XF86MonBrightnessDown   exec --no-startup-id sh $scripts/system/brightness.sh brightness_down

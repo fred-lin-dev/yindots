@@ -1,100 +1,95 @@
-#!/usr/bin/env bash
-# Script de démarrage i3 — EPITA NixOS
-# Lancé par exec --no-startup-id dans la config i3
+#!/bin/sh
 
-source "$HOME/afs/.confs/scripts/globals.sh"
-
-# Ouvre Firefox et AFS en arrière-plan
-nohup firefox > /dev/null 2>&1 &
-nohup "$SCRIPTS/system/open_afs.sh" &
+. "$HOME/afs/.confs/scripts/globals.sh"
 
 IDA=42
 IDB=43
 
-dunstify -r "$IDA" -t 0 "=== Startup EPITA ==="
+dunstify -r "$IDA" -t 0 "=== Yindots Startup ==="
 
-# ── Wallpaper ──────────────────────────────────────────────────────────────────
+# ── Wallpaper ─────────────────────────────────────────────────────────────────
 if [ -f "$SCRIPTS/wallpaper_scripts/safe_change_wallpaper.sh" ]; then
-    bash "$SCRIPTS/wallpaper_scripts/safe_change_wallpaper.sh" > /dev/null 2>&1
+    sh "$SCRIPTS/wallpaper_scripts/safe_change_wallpaper.sh" > /dev/null 2>&1
 fi
 
-# ── Installation des packages nix si absents ───────────────────────────────────
+# ── Optimot ───────────────────────────────────────────────────────────────────
+if command -v xkbcomp > /dev/null 2>&1 && [ -f "$CFG/Optimot/load_keyboard.sh" ]; then
+    sh "$CFG/Optimot/load_keyboard.sh" > /dev/null 2>&1
+fi
+
+# ── Paquets Nix (si bat absent = 1er démarrage) ───────────────────────────────
 if [ ! -x "$HOME/.nix-profile/bin/bat" ]; then
-    dunstify -r "$IDB" -t 0 "Installation des packages..."
-
-    PACKAGES=(
-        nixpkgs#autotiling
-        nixpkgs#papirus-icon-theme
-        nixpkgs#bat
-        nixpkgs#adw-gtk3
-        nixpkgs#pqiv
-        nixpkgs#emacs
-        nixpkgs#clang-tools
-        nixpkgs#ripgrep
-        nixpkgs#flameshot
-        nixpkgs#fzf
-        nixpkgs#fd
-        nixpkgs#zoxide
-        nixpkgs#matugen
-        nixpkgs#starship
-        nixpkgs#rofi
-        nixpkgs#picom
-        nixpkgs#polybar
-        nixpkgs#feh
-        nixpkgs#bc
-        nixpkgs#playerctl
-        nixpkgs#nerd-fonts.jetbrains-mono
-    )
-
-    if nix profile install "${PACKAGES[@]}" > /dev/null 2>&1; then
-        fc-cache -fv > /dev/null 2>&1
-        dunstify -r "$IDB" -t 5000 "Packages installés [OK]"
+    dunstify -r "$IDB" -t 0 "Installation des paquets supplémentaires..."
+    PACKAGES="
+    nixpkgs#autotiling
+    nixpkgs#papirus-icon-theme
+    nixpkgs#bat
+    nixpkgs#adw-gtk3
+    nixpkgs#pqiv
+    nixpkgs#emacs
+    nixpkgs#clang-tools
+    nixpkgs#ripgrep
+    nixpkgs#flameshot
+    nixpkgs#fzf
+    nixpkgs#fd
+    nixpkgs#zoxide
+    nixpkgs#starship
+    nixpkgs#matugen
+    nixpkgs#rofi
+    nixpkgs#picom
+    nixpkgs#polybar
+    nixpkgs#feh
+    nixpkgs#bc
+    nixpkgs#playerctl
+    nixpkgs#nerd-fonts.jetbrains-mono
+    "
+    if nix profile install $PACKAGES --impure > /dev/null 2>&1; then
+        dunstify -r "$IDB" -t 5000 "Paquets installés [OK]"
     else
-        dunstify -r "$IDB" -u critical "Packages installation [FAIL]"
+        dunstify -r "$IDB" -u critical "Installation paquets [FAIL]"
     fi
 fi
 
-# ── Pywalfox (Firefox theming via matugen) ─────────────────────────────────────
+# ── Pywalfox ──────────────────────────────────────────────────────────────────
 if [ -f "$CONFIG/matugen/pywalfox.json" ]; then
     mkdir -p "$HOME/.cache/wal"
     ln -sf "$CONFIG/matugen/pywalfox.json" "$HOME/.cache/wal/colors.json"
 
-    if command -v pywalfox > /dev/null 2>&1; then
-        pywalfox install > /dev/null 2>&1
+    dunstify -r "$IDB" -t 0 "Configuration Pywalfox..."
+    if command -v pywalfox > /dev/null 2>&1 && pywalfox install > /dev/null 2>&1; then
+        dunstify -r "$IDB" -t 3000 "Pywalfox [OK]"
+    else
+        dunstify -u critical "Pywalfox [FAIL]"
     fi
 fi
 
-# ── Reload i3 ────────────────────────────────────────────────────────────────
+# ── Reload i3 ─────────────────────────────────────────────────────────────────
 dunstify -r "$IDB" -t 0 "Rechargement i3..."
 if i3-msg restart > /dev/null 2>&1; then
-    dunstify -r "$IDB" -t 3000 "Rechargement i3 [OK]"
+    dunstify -r "$IDB" -t 3000 "i3 rechargé [OK]"
 else
-    dunstify -r "$IDB" -t 3000 "Rechargement i3 [SKIP]"
+    dunstify -r "$IDB" -t 3000 "i3 restart [SKIP]"
 fi
 
-# ── Exécution des autres scripts de démarrage ─────────────────────────────────
-LOG_FILE="/tmp/startup_scripts.log"
+# ── Scripts de démarrage supplémentaires ─────────────────────────────────────
+LOG_FILE="/tmp/yindots_startup.log"
 echo "===== STARTUP LOG =====" > "$LOG_FILE"
 
 if [ -d "$SCRIPTS/startup_scripts" ]; then
     for f in "$SCRIPTS/startup_scripts"/*; do
         [ -f "$f" ] || continue
         fname="${f##*/}"
-
-        if [ "$fname" != "startup.sh" ] && [ "$fname" != "aklogger.sh" ] && [ "$fname" != "check_update.sh" ]; then
-            chmod +x "$f"
-            echo "===== LOG $fname =====" >> "$LOG_FILE"
-            dunstify -r "$IDB" -t 0 "Exécution : $fname"
-            if ! "$f" >> "$LOG_FILE" 2>&1; then
-                dunstify -u critical "Erreur : $fname" "Voir $LOG_FILE"
-            fi
-        fi
+        [ "$fname" = "startup.sh" ] || [ "$fname" = "check_update.sh" ] && continue
+        chmod +x "$f"
+        echo "===== $fname =====" >> "$LOG_FILE"
+        dunstify -r "$IDB" -t 0 "Exécution : $fname"
+        "$f" >> "$LOG_FILE" 2>&1 || dunstify -u critical "Erreur : $fname" "Voir $LOG_FILE"
     done
 
-    [ -f "$SCRIPTS/startup_scripts/aklogger.sh" ]     && bash "$SCRIPTS/startup_scripts/aklogger.sh"     > /dev/null 2>&1 &
-    [ -f "$SCRIPTS/startup_scripts/check_update.sh" ] && bash "$SCRIPTS/startup_scripts/check_update.sh" > /dev/null 2>&1 &
+    [ -f "$SCRIPTS/startup_scripts/check_update.sh" ] && \
+        sh "$SCRIPTS/startup_scripts/check_update.sh" > /dev/null 2>&1 &
 fi
 
-dunstify -r "$IDB" -t 5000 "Tout est prêt !"
+dunstify -r "$IDB" -t 5000 "Prêt !"
 sleep 5
 dunstify -C "$IDA"

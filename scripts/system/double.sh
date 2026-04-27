@@ -1,24 +1,19 @@
-#!/usr/bin/env bash
-# Ouvre un nouveau terminal alacritty dans le dossier courant de la fenêtre active
+#!/bin/sh
+# Get the ID of the current focus window
+ID=$(xprop -root _NET_ACTIVE_WINDOW | awk '{print $5}')
 
-ID=$(xprop -root _NET_ACTIVE_WINDOW 2>/dev/null | awk '{print $5}')
-if [ -z "$ID" ] || [ "$ID" = "0x0" ]; then
-    alacritty
-    exit 0
-fi
+# Get the PID of the window
+PID=$(xprop -id "$ID" _NET_WM_PID | awk '{print $3}')
 
-PID=$(xprop -id "$ID" _NET_WM_PID 2>/dev/null | awk '{print $3}')
-if [ -z "$PID" ]; then
-    alacritty
-    exit 0
-fi
+# Get the Child PID
+CHILD_PID=$(pgrep -P "$PID")
 
-CHILD_PID=$(pgrep -P "$PID" | head -n 1)
-
+# Get the CWD
 if [ -n "$CHILD_PID" ]; then
-    CWD=$(readlink -f "/proc/$CHILD_PID/cwd" 2>/dev/null)
+    CWD=$(readlink -f "/proc/$CHILD_PID/cwd")
 else
-    CWD=$(readlink -f "/proc/$PID/cwd" 2>/dev/null)
+    CWD=$(readlink -f "/proc/$PID/cwd")
 fi
 
-alacritty --working-directory "${CWD:-$HOME}"
+# Open a new terminal in the CWD
+alacritty --working-directory "$CWD"
