@@ -78,7 +78,7 @@ bindsym $mod+Shift+w    exec --no-startup-id sh $scripts/menus/wallpaper_menu.sh
 bindsym $mod+Shift+b    exec --no-startup-id sh $scripts/wallpaper_scripts/random_wallpaper.sh
 
 # ── Lock / Verrou ─────────────────────────────────────────────────────────────
-bindsym $mod+x          exec --no-startup-id sh $i3lock
+bindsym $mod+Shift+x    exec --no-startup-id sh $i3lock
 
 # ── Screenshot ────────────────────────────────────────────────────────────────
 bindsym Print           exec flameshot gui
