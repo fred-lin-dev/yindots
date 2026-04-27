@@ -16,10 +16,12 @@ REPO_WALLPAPER="git@github.com:fred-lin-dev/yinpi-wallpaper.git"
 GREEN=$(printf '\033[0;32m')
 BLUE=$(printf '\033[0;34m')
 RED=$(printf '\033[0;31m')
+YELLOW=$(printf '\033[0;33m')
 NC=$(printf '\033[0m')
 
 step() { printf "${BLUE}::${NC} %-42s" "$1"; }
 ok()   { printf "[${GREEN}OK${NC}]\n"; }
+warn() { printf "[${YELLOW}SKIP${NC}] $1\n"; }
 fail() { printf "[${RED}KO${NC}]\n"; }
 
 # ── Dotfiles → $HOME ─────────────────────────────────────────────────────────
@@ -60,7 +62,7 @@ if [ ! -d "$WALLPAPERS" ]; then
         rm -rf "$WALLPAPERS/.git"
         ok
     else
-        fail
+        warn "(SSH non configuré — lance 'git clone $REPO_WALLPAPER $WALLPAPERS' manuellement)"
     fi
 else
     ok

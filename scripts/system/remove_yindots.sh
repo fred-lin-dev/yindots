@@ -8,15 +8,18 @@ printf "${BLUE}┌────────────────────�
 printf "${BLUE}│             REMOVING YINDOTS             │${NC}\n"
 printf "${BLUE}└──────────────────────────────────────────┘${NC}\n"
 
-# ── 1. Backup wallpapers persos ───────────────────────────────────────────────
+# ── 1. Backup wallpapers et scripts persos ────────────────────────────────────
 printf "${BLUE}::${NC} %-42s" "Sauvegarde des fichiers persos..."
 tmp_chk=$(mktemp -d)
 
-if git clone --depth 1 -b "$BRANCH" "$REPO_YINDOTS" "$tmp_chk/repo" >/dev/null 2>&1 && \
-   git clone --depth 1 "$REPO_WALLPAPER" "$tmp_chk/walls" >/dev/null 2>&1; then
+# Tente de cloner pour comparer avec les défauts ; si SSH indispo, sauvegarde tout
+clone_ok=0
+git clone --depth 1 -b "$BRANCH" "$REPO_YINDOTS" "$tmp_chk/repo" >/dev/null 2>&1 && \
+git clone --depth 1 "$REPO_WALLPAPER" "$tmp_chk/walls" >/dev/null 2>&1 && clone_ok=1
 
-    if [ -d "$WALLPAPERS" ]; then
-        mkdir -p "$AFS/user_wallpapers"
+if [ -d "$WALLPAPERS" ]; then
+    mkdir -p "$AFS/user_wallpapers"
+    if [ "$clone_ok" -eq 1 ]; then
         ls "$tmp_chk/walls" > "$tmp_chk/defaults_walls.txt" 2>/dev/null
         for wp in "$WALLPAPERS"/*; do
             [ -e "$wp" ] || continue
@@ -24,25 +27,28 @@ if git clone --depth 1 -b "$BRANCH" "$REPO_YINDOTS" "$tmp_chk/repo" >/dev/null 2
             [ "$fname" = ".git" ] && continue
             grep -Fqx "$fname" "$tmp_chk/defaults_walls.txt" || mv "$wp" "$AFS/user_wallpapers/"
         done
+    else
+        # Pas de comparaison possible → sauvegarde tout
+        mv "$WALLPAPERS"/* "$AFS/user_wallpapers/" 2>/dev/null || true
     fi
+fi
 
-    if [ -d "$SCRIPTS/startup_scripts" ]; then
-        mkdir -p "$AFS/user_scripts"
+if [ -d "$SCRIPTS/startup_scripts" ]; then
+    mkdir -p "$AFS/user_scripts"
+    if [ "$clone_ok" -eq 1 ]; then
         ls "$tmp_chk/repo/scripts/startup_scripts" > "$tmp_chk/defaults_scripts.txt" 2>/dev/null
         for sc in "$SCRIPTS/startup_scripts"/*; do
             [ -e "$sc" ] || continue
             fname="${sc##*/}"
             grep -Fqx "$fname" "$tmp_chk/defaults_scripts.txt" || mv "$sc" "$AFS/user_scripts/"
         done
+    else
+        mv "$SCRIPTS/startup_scripts"/* "$AFS/user_scripts/" 2>/dev/null || true
     fi
-
-    rm -rf "$tmp_chk"
-    printf "[${GREEN}OK${NC}]\n"
-else
-    rm -rf "$tmp_chk"
-    printf "[${RED}KO${NC}]\n"
-    exit 1
 fi
+
+rm -rf "$tmp_chk"
+printf "[${GREEN}OK${NC}]\n"
 
 # ── 2. Suppression des symlinks yindots ───────────────────────────────────────
 printf "${BLUE}::${NC} %-42s" "Suppression des symlinks..."
