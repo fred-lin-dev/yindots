@@ -26,6 +26,7 @@ fail() { printf "[${RED}KO${NC}]\n"; }
 
 # ── Dotfiles → $HOME ─────────────────────────────────────────────────────────
 step "Symlinks dotfiles..."
+rm -f "$HOME/.emacs"
 mkdir -p "$HOME/.emacs.d"
 ln -sf "$CFG/.bashrc"       "$HOME/.bashrc"
 ln -sf "$CFG/.bash_aliases" "$HOME/.bash_aliases"
