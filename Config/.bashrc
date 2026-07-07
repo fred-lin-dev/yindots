@@ -63,17 +63,17 @@ alias ....='cd ../../..'
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-# ── ZOXIDE ────────────────────────────────────────────────────────────────────
-if command -v zoxide &>/dev/null; then
-    eval "$(zoxide init bash)"
-    alias cd='z'
-fi
-
 # ── PROMPT ────────────────────────────────────────────────────────────────────
 if command -v starship &>/dev/null; then
     eval "$(starship init bash)"
 else
     PS1='(づ ◕‿‿◕)づ \[\e[32m\]$( [ "$PWD" = "$HOME" ] && echo "yinpi" || basename "$PWD" )\[\e[0m\]$ '
+fi
+
+# ── ZOXIDE ────────────────────────────────────────────────────────────────────
+if command -v zoxide &>/dev/null; then
+    eval "$(zoxide init bash)"
+    alias cd='z'
 fi
 
 # ── YINDOTS ───────────────────────────────────────────────────────────────────
